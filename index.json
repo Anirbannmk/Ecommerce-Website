@@ -180,10 +180,10 @@
           "name": "Smartwatch Fitness Pro",
           "price": "$199.99",
           "img": "https://m.media-amazon.com/images/I/61FQOvP93fL._SL1500_.jpg",
-  "img1": "https://m.media-amazon.com/images/I/71RLxREu-CL._SL1500_.jpg",
-  "img2": "https://m.media-amazon.com/images/I/71ylnBOx-DL._SL1500_.jpg",
-  "img3": "https://m.media-amazon.com/images/I/61l0g5ge1LL._SL1500_.jpg",
-  "img4": "https://m.media-amazon.com/images/I/71lJ5nk5bDL._SL1500_.jpg",
+          "img1": "https://m.media-amazon.com/images/I/71RLxREu-CL._SL1500_.jpg",
+        "img2": "https://m.media-amazon.com/images/I/71ylnBOx-DL._SL1500_.jpg",
+        "img3": "https://m.media-amazon.com/images/I/61l0g5ge1LL._SL1500_.jpg",
+         "img4": "https://m.media-amazon.com/images/I/71lJ5nk5bDL._SL1500_.jpg",
           "description": "1.65-inch AMOLED display, heart rate monitor, sleep tracking, GPS, 14-day battery life."
         },
         {
