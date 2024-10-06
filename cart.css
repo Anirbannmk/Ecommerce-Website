@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+#cart-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
+}
+.product {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 15px;
+    width: 200px;
+    text-align: center;
+}
+
+.product img {
+    width: 100px; 
+    border-radius: 5px;
+}
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.product-price {
+    font-size: 16px;
+    color: green;
+}
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px; 
+}
+
+button {
+    background-color: #ffa41c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ff8c00;
+}
+
+button:focus {
+    outline: none;
+}
+@media (max-width: 600px) {
+    #cart-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product {
+        width: 90%;
+    }
+
+    .button-container {
+        flex-direction: column; 
+    }
+}
+/* Total Amount Container */
+#total-container {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+/* Delete Button */
+.delete-btn {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+/* Delete Button Hover */
+.delete-btn:hover {
+    background-color: #e60000;
+}
+
+/* Delete Button Focus */
+.delete-btn:focus {
+    outline: none;
+}

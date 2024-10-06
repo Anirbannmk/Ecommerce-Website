@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+    <h1>Your Cart</h1>
+    <div id="cart-container"></div>
+    <!-- Total Amount Container -->
+    <div id="total-container">
+        <p id="total-amount">$0</p>
+    </div>
+    <div class="button-container">
+        <button onclick="clearCart()">Clear Cart</button>
+        <button onclick="window.location.href='index.html'">Continue Shopping</button>
+    </div>
+    <script>
+        function loadCart() {
+            const cartcontainer = document.getElementById('cart-container');
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let totalAmount = 0;  
+            cartcontainer.innerHTML = '';
+            if (cart.length === 0) {
+                cartcontainer.innerHTML = "<p>Your cart is empty.</p>";
+                document.getElementById('total-amount').textContent = "$0";
+                return;
+            }
+
+            cart.forEach((product, index) => {
+                const productdiv = document.createElement('div');
+                productdiv.className = 'product';
+
+                // Product Image
+                const img = document.createElement('img');
+                img.src = product.img;
+                img.style.width = "100px";      
+                productdiv.appendChild(img);
+
+                // Product Name
+                const productname = document.createElement('div');
+                productname.className = 'product-name';
+                productname.textContent = product.name;
+                productdiv.appendChild(productname);
+
+                // Product Price
+                const productprice = document.createElement('div');
+                productprice.className = 'product-price';
+                productprice.textContent = product.price;
+                productdiv.appendChild(productprice);
+
+                // Calculate total amount
+                totalAmount += parseFloat(product.price.replace(/[$,]/g, '')); // Remove $ and parse to float
+
+                // Delete Button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.onclick = () => removeProduct(index); // Set the click event to remove the product
+                productdiv.appendChild(deleteBtn);
+
+                cartcontainer.appendChild(productdiv);
+            });
+            // Update total amount
+            document.getElementById('total-amount').textContent = `$${totalAmount.toFixed(2)}`;
+        }
+        // Remove product from cart by index
+        function removeProduct(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1); // Remove the product at the given index
+            localStorage.setItem('cart', JSON.stringify(cart)); // Update local storage
+            loadCart(); // Reload cart after deletion
+        }
+        // Clear the entire cart
+        function clearCart() {
+            localStorage.removeItem('cart');
+            document.getElementById('cart-container').innerHTML = "<p>Your cart is empty.</p>";
+            document.getElementById('total-amount').textContent = "$0";
+        }
+        // Initial load
+        loadCart();
+    </script>
+</body>
+</html>
