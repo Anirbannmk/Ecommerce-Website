@@ -1,0 +1,49 @@
+// Function to create a product div
+ function createProductDiv(product) {
+    const productdiv = document.createElement('div');
+    productdiv.className = "product-div"; // Set class for styling
+    productdiv.style.display = "flex";
+    productdiv.style.flexDirection = "column";
+    productdiv.style.width = "250px"; // Fixed width
+    productdiv.style.height = "auto"; 
+    productdiv.style.padding = "15px";
+    productdiv.style.backgroundColor = "#fff";
+    productdiv.style.boxShadow = "0 0 10px rgba(0,0,0,0.1)";
+    productdiv.style.borderRadius = "8px";
+    productdiv.style.textAlign = "center";
+    productdiv.style.flexGrow = "1"; 
+
+    const img = document.createElement('img');
+    img.src = product.img;
+    img.className = "product-img"; // Set class for styling
+    productdiv.appendChild(img);
+
+    const productname = document.createElement('div');
+    productname.textContent = product.name;
+    productname.className = "product-name"; // Set class for styling
+    productdiv.appendChild(productname);
+
+    const productprice = document.createElement('div');
+    productprice.textContent = product.price;
+    productprice.className = "product-price"; // Set class for styling
+    productdiv.appendChild(productprice);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.display = "flex";
+    buttonContainer.style.justifyContent = "space-between";
+    buttonContainer.style.marginTop = "auto"; 
+    buttonContainer.style.gap = "10px"; 
+
+    const viewButton = createButton("View Details", "#ffa41c");
+    const addButton = createButton("Add to Cart", "#ffd814");
+
+    buttonContainer.appendChild(viewButton);
+    buttonContainer.appendChild(addButton);
+    productdiv.appendChild(buttonContainer);
+
+    addButton.addEventListener('click', () => addToCart(product));
+    viewButton.addEventListener('click', () => viewProductDetails(product));
+
+    return productdiv;
+} 
+

@@ -1,52 +1,58 @@
-*{
-    margin:0;
-    padding:0;
+/* style.css */
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
-body{
+
+body {
     overflow-x: hidden;
 }
-header{
+
+header {
     display: flex;
     justify-content: space-between;
     padding: 0.8rem;
     background-color: lawngreen;
 }
-.logo{
+
+.logo {
     font-size: 1.5rem;
     font-weight: 600;
 }
-.logo-dark{
+
+.logo-dark {
     font-size: 2rem;
     font-weight: 800;
 }
-.nav-links{
+
+.nav-links {
     display: flex;
     width: 40%;
     justify-content: space-evenly;
     font-size: 14px;
-    margin-top: 8px    ;
+    margin-top: 8px;
 }
-.nav-menu-btn{
+
+.nav-menu-btn, .nav-menu-cncl {
     width: 2rem;
     height: 2rem;
 }
-.nav-menu-cncl{
-    width: 2rem;
-    height: 2rem;
-}
-.nav-menu{
+
+.nav-menu {
     position: absolute;
     width: 100%;
-    top:60px;
+    top: 60px;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
     transition: opacity 1s;
 }
-.nav-menu-item{
-    padding-left:0.8rem;
+
+.nav-menu-item {
+    padding-left: 0.8rem;
 }
+
 #inputbox {
     margin-top: auto;
     margin-bottom: auto;
@@ -57,24 +63,70 @@ header{
     width: 20%;
 }
 
+@media (max-width: 640px) {
+    .nav-links {
+        display: none;
+    }
 
-@media (width<640px) {
-    .nav-links{
+    .nav-menu-cncl {
         display: none;
     }
-    .nav-menu-cncl{
-        display: none;
-    }
-    
 }
-@media (width>640px) {
-    #nav-menu-btn{
+
+@media (min-width: 640px) {
+    #nav-menu-btn {
         display: none;
     }
-    #nav-menu-cncl{
+
+    #nav-menu-cncl {
         display: none;
     }
-    #nav-menu-btn{
-        display: none;
-    }
+}
+
+#productcontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; 
+    padding: 20px;
+}
+
+.product-div {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: auto;
+    padding: 15px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden; /* Ensure no overflow */
+}
+
+.product-div img {
+    max-width: 100%; 
+    max-height: 200px;
+    height: auto; 
+    object-fit: contain; 
+    margin-bottom: 15px; 
+}
+
+.product-div .button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+    gap: 10px;
+}
+
+.load-more-button {
+    padding: 10px 20px;
+    margin: 20px auto;
+    display: block;
+    background-color: #ffa41c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }

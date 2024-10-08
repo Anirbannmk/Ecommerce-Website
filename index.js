@@ -21,115 +21,127 @@ menuCncl.addEventListener("click",()=> {
   navMenu.style.opacity = "0";
 });
 
-//display the filter product
-async function showdata(){
-  const maindiv = document.getElementById('productcontainer');
-  const text = document.getElementById("inputbox").value.toLowerCase();
-  maindiv.innerText=""
-  let response = await fetch("index.json");
-  let jsonproduct = await response.json();
-  let data=jsonproduct.filter((ele)=>{
-    return ele.name.toLowerCase().includes(text);
-  })
-  if (data.length>0) {
-    data.forEach((product) => {
-      const productdiv = createproductdiv(product);
-      maindiv.appendChild(productdiv);
-    });
-  } else {
-    maindiv.innerHTML = "<p>No products found</p>"; 
-  }
+
+let currentIndex = 0; // Track how many products have been displayed
+const productsPerLoad = 10; // Number of products to load each time
+let allProducts = []; // Store all products loaded from JSON
+
+async function fetchProducts() {
+    const jsonproduct = await fetchProductsFromJson();
+    allProducts = jsonproduct;
+    displayProducts();
 }
 
-//display the product in webpaage
-async function fetchProducts() {
-    //search for particular product
-    //const searchinput=document.getElementById('searchInput').value.toLowerCase();
-    let response = await fetch("index.json");
-    let jsonproduct = await response.json();
+// Function to display products in the container
+function displayProducts() {
     const maindiv = document.getElementById('productcontainer');
-    maindiv.style.display = "flex";
-    maindiv.style.flexWrap = "wrap";  
-    maindiv.style.justifyContent = "center";
-    maindiv.style.gap = "20px";
-    maindiv.style.padding = "20px";
-    maindiv.style.width = "100%";
-    document.body.appendChild(maindiv);
-    const productsArray = jsonproduct;
-    productsArray.forEach(product => {
-        const productdiv = createproductdiv(product);
+    const productsToDisplay = allProducts.slice(currentIndex, currentIndex + productsPerLoad);
+    productsToDisplay.forEach(product => {
+        const productdiv = createProductDiv(product);
         maindiv.appendChild(productdiv);
     });
-  }
-  fetchProducts();
+    currentIndex += productsPerLoad;
 
+    // Check if there are more products to display
+    document.getElementById("load-more-button").style.display =
+        currentIndex < allProducts.length ? "block" : "none"; // Show or hide button
+}
 
-    function createproductdiv(product) {
-        const productdiv = document.createElement('div');
-        productdiv.style.width = "250px";
-        productdiv.style.height = "auto"; 
-        productdiv.style.padding = "15px";
-        productdiv.style.backgroundColor = "#fff";
-        productdiv.style.boxShadow = "0 0 10px rgba(0,0,0,0.1)";
-        productdiv.style.borderRadius = "8px";
-        productdiv.style.textAlign = "center";
+document.getElementById("load-more-button").addEventListener("click", displayProducts);
 
-        const img = document.createElement('img');
-        img.src = product.img;
-        img.style.width = "80%";
-        img.style.borderRadius = "8px";
-        img.style.marginBottom = "10px";
-        productdiv.appendChild(img);
-
-        const productname = document.createElement('div');
-        productname.textContent = product.name;
-        productname.style.fontSize = "18px";
-        productname.style.fontWeight = "bold";
-        productname.style.marginBottom = "8px";
-        productdiv.appendChild(productname);
-
-        const productprice = document.createElement('div');
-        productprice.textContent = product.price;
-        productprice.style.color = "green";
-        productprice.style.fontSize = "16px";
-        productprice.style.marginBottom = "8px";
-        productdiv.appendChild(productprice);
-
-        const buttonContainer = document.createElement('div');
-        buttonContainer.style.display = "flex";
-        buttonContainer.style.justifyContent = "space-between"; 
-        buttonContainer.style.marginTop = "10px"; 
-        buttonContainer.style.gap = "10px"; 
-
-        const viewButton = document.createElement("button");
-        viewButton.textContent = "View Details";
-        viewButton.style.backgroundColor = "#ffa41c";
-        viewButton.style.color = "#fff";
-        viewButton.style.border = "none";
-        viewButton.style.padding = "10px";
-        viewButton.style.borderRadius = "5px";
-        viewButton.style.cursor = "pointer";
-        buttonContainer.appendChild(viewButton);
-
-        const addButton = document.createElement("button");
-        addButton.textContent = "Add to Cart";
-        addButton.style.backgroundColor = "#ffd814"; 
-        addButton.style.color = "#fff";
-        addButton.style.border = "none";
-        addButton.style.padding = "10px";
-        addButton.style.borderRadius = "5px";
-        addButton.style.cursor = "pointer";
-        buttonContainer.appendChild(addButton);
-
-        productdiv.appendChild(buttonContainer);
-        addButton.addEventListener('click', () => {
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.push(product);  
-            localStorage.setItem('cart', JSON.stringify(cart)); 
-            window.location.href = 'cart.html';
-        });
+// Display filtered products based on user input
+async function showdata() {
+    const maindiv = document.getElementById('productcontainer');
+    const text = document.getElementById("inputbox").value.toLowerCase();
+    maindiv.innerHTML = "";
+    const jsonproduct = await fetchProductsFromJson();
     
-        return productdiv;
+    // Filter products based on user input
+    const filteredProducts = jsonproduct.filter(product =>
+        product.name.toLowerCase().includes(text)
+    );
+
+    if (filteredProducts.length > 0) {
+        filteredProducts.forEach(product => {
+            const productdiv = createProductDiv(product);
+            maindiv.appendChild(productdiv);
+        });
+        document.getElementById("load-more-button").style.display = "none"; // Hide load more button when filtering
+    } else {
+        maindiv.innerHTML = "<p>No products found</p>";
+        document.getElementById("load-more-button").style.display = "none"; // Hide button if no products found
     }
+}
+
+// Function to fetch products from the JSON file
+async function fetchProductsFromJson() {
+    const response = await fetch("index.json");
+    return await response.json();
+}
+
+// Call fetchProducts to display products on page load
+fetchProducts();
+
+    // Function to create a product div
+function createProductDiv(product) {
+    const productdiv = document.createElement('div');
+    productdiv.className = "product-div"; 
+    
+    const img = document.createElement('img');
+    img.src = product.img; 
+    img.alt = product.name; 
+    img.className = "product-img"; 
+    productdiv.appendChild(img);
+
+    const productname = document.createElement('div');
+    productname.textContent = product.name;
+    productname.className = "product-name";
+    productdiv.appendChild(productname);
+
+    const productprice = document.createElement('div');
+    productprice.textContent = product.price;
+    productprice.className = "product-price"; 
+    productdiv.appendChild(productprice);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = "button-container";
+    const viewButton = createButton("View Details", "#ffa41c");
+    const addButton = createButton("Add to Cart", "#ffd814");
+
+    buttonContainer.appendChild(viewButton);
+    buttonContainer.appendChild(addButton);
+    productdiv.appendChild(buttonContainer);
+
+    addButton.addEventListener('click', () => addToCart(product));
+    viewButton.addEventListener('click', () => viewProductDetails(product));
+
+    return productdiv;
+}
 
 
+// Function to create a button with styling
+function createButton(text, bgColor) {
+    const button = document.createElement("button");
+    button.textContent = text;
+    button.style.backgroundColor = bgColor;
+    button.style.color = "#fff";
+    button.style.border = "none";
+    button.style.padding = "10px";
+    button.style.borderRadius = "5px";
+    button.style.cursor = "pointer";
+    return button;
+}
+
+// Add product to cart
+function addToCart(product) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(product);  
+    localStorage.setItem('cart', JSON.stringify(cart)); 
+    window.location.href = 'cart.html';
+}
+
+// View product details
+function viewProductDetails(product) {
+    localStorage.setItem('selectedProduct', JSON.stringify(product)); 
+    window.location.href = 'view-details.html'; 
+}

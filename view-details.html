@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="view-details.css">
+</head>
+<body>
+
+    <div class="details-container">
+        <div class="image-slider">
+            <img id="product-image" src="" alt="Product Image">
+            <button class="slider-arrow left" id="prev-img">&#10094;</button>
+            <button class="slider-arrow right" id="next-img">&#10095;</button>
+        </div>
+        <div class="description">
+            <h2 id="product-name"></h2>
+            <p id="product-description"></p>
+            <p id="product-price"></p>
+            <div class="button-container">
+                <button id="add-to-cart">Add to Cart</button>
+                <button id="buy-now">Buy Now</button>
+            </div>
+        </div>
+        <button onclick="window.location.href='index.html'">Continue Shopping</button>
+    </div>
+
+    <script>
+        let currindex = 0;
+        let images = [];
+        window.onload = function() {
+            const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+            document.getElementById('product-name').textContent = selectedProduct.name;
+            document.getElementById('product-description').textContent = selectedProduct.description;
+            document.getElementById('product-price').textContent = selectedProduct.price;
+
+            // Set images for slider
+            images = [selectedProduct.img, selectedProduct.img1, selectedProduct.img2, selectedProduct.img3, selectedProduct.img4];
+
+            const productimg = document.getElementById('product-image');
+            productimg.src = images[currindex];
+
+            // Image slider functionality
+            document.getElementById('prev-img').addEventListener('click', () => {
+                currindex = (currindex === 0) ? images.length - 1 : currindex - 1;
+                productimg.src = images[currindex];
+            });
+
+            document.getElementById('next-img').addEventListener('click', () => {
+                currindex = (currindex === images.length - 1) ? 0 : currindex + 1;
+                productimg.src = images[currindex];
+            });
+
+            // Add to Cart Button
+            document.getElementById('add-to-cart').addEventListener('click', () => {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(selectedProduct);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                window.location.href = 'cart.html';
+            });
+
+            // Buy Now Button (Redirect to checkout page)
+            document.getElementById('buy-now').addEventListener('click', () => {
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push(selectedProduct);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                window.location.href = 'checkout.html';
+            });
+        }
+    </script>
+
+</body>
+</html>
