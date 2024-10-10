@@ -32,6 +32,7 @@ header {
     justify-content: space-evenly;
     font-size: 14px;
     margin-top: 8px;
+    max-width: 50px;
 }
 
 .nav-menu-btn, .nav-menu-cncl {
